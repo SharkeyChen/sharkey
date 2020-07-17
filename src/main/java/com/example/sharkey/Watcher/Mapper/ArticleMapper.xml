@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sharkey.Watcher.Mapper.ArticleMapper">
+    <resultMap id="ArticleInfo" type="com.example.sharkey.Model.Article">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="title" property="title" jdbcType="VARCHAR"></result>
+        <result column="publishtime" property="publishtime" jdbcType="TIMESTAMP"></result>
+        <result column="subtitle" property="subtitle" jdbcType="VARCHAR"></result>
+        <result column="content" property="content" jdbcType="VARCHAR"></result>
+        <result column="html" property="html" jdbcType="VARCHAR"></result>
+        <result column="author" property="author" jdbcType="VARCHAR"></result>
+        <collection property="tags" javaType="java.util.List" ofType="com.example.sharkey.Model.Tag">
+            <id column="t_id" property="id" jdbcType="INTEGER"></id>
+            <result column="t_tag" property="tag" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+
+
+    <select id="getAllArticle" resultMap="ArticleInfo">
+        select a.id, a.title, a.publishtime, a.subtitle, a.content, a.html, a.author, t.id t_id, t.tag t_tag from article a left join articletag atg on a.id = atg.articleid
+        left join tag t on atg.tagid = t.id
+    </select>
+
+    <insert id="addArticle" parameterType="com.example.sharkey.Model.Article" keyProperty="id" useGeneratedKeys="true">
+        insert into
+        article(title, subtitle, content, publishtime, author, html)
+        values(#{title}, #{subtitle}, #{content}, #{publishtime}, #{author}, #{html})
+    </insert>
+</mapper>
