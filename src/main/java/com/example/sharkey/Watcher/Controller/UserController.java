@@ -1,8 +1,8 @@
 package com.example.sharkey.Watcher.Controller;
 
-import com.example.sharkey.Model.RespBean;
-import com.example.sharkey.Model.RespPageBean;
-import com.example.sharkey.Model.User;
+import com.example.sharkey.Entity.RespBean;
+import com.example.sharkey.Entity.RespPageBean;
+import com.example.sharkey.Entity.User;
 import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +52,9 @@ public class UserController {
         else{
             filename = profile.substring(9);
         }
-        System.out.println("########" + savePath + "##########" + filename + "############");
+        MyLogger.logger("########" + savePath + "##########" + filename + "############");
         File newFile = new File(savePath, filename);
-        System.out.println(newFile.getAbsolutePath());
+        MyLogger.logger(newFile.getAbsolutePath());
         if(!newFile.exists()){
             System.out.println("not exist");
             try{

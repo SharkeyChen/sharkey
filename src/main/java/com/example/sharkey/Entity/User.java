@@ -1,4 +1,6 @@
-package com.example.sharkey.Model;
+package com.example.sharkey.Entity;
+
+import java.util.List;
 
 public class User {
     private int id;
@@ -13,6 +15,16 @@ public class User {
 
     private String profile;
 
+    private String console;
+
+    private String ip;
+
+    private List<UserSocial> userSocials;
+
+    public List<UserSocial> getUserSocials() {
+        return userSocials;
+    }
+
     public int getId(){return id;}
 
     public String getUsername(){return username;}
@@ -25,12 +37,23 @@ public class User {
 
     public String getProfile(){return profile;}
 
+    public String getConsole(){return console;}
+
     public void EncodePass(){
         this.password = "";
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public void Print(){
         System.out.println("username:" + this.getUsername() + "\n"
                             + "password:" + this.getPassword());
     }
+
 }

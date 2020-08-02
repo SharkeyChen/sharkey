@@ -61,6 +61,11 @@ public class RoomGroup {
             if(PlayerExist(rid, id)){
                 MyLogger.logger("玩家退出成功");
             }
+            if(isRoomExist(rid)){
+                if(!TransContent(rid, message)){
+                    MyLogger.logger("转发消息出现问题");
+                }
+            }
         }
     }
 

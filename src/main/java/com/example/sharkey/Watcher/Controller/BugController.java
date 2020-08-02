@@ -1,8 +1,8 @@
 package com.example.sharkey.Watcher.Controller;
 
-import com.example.sharkey.Model.Bug;
-import com.example.sharkey.Model.RespBean;
-import com.example.sharkey.Model.RespPageBean;
+import com.example.sharkey.Entity.Bug;
+import com.example.sharkey.Entity.RespBean;
+import com.example.sharkey.Entity.RespPageBean;
 import com.example.sharkey.Watcher.Service.BugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

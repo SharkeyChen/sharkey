@@ -1,6 +1,6 @@
 package com.example.sharkey.Watcher.Controller;
 
-import com.example.sharkey.Model.RespPageBean;
+import com.example.sharkey.Entity.RespPageBean;
 import com.example.sharkey.Watcher.Service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

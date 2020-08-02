@@ -1,6 +1,6 @@
 package com.example.sharkey.Watcher.Mapper;
 
-import com.example.sharkey.Model.Hello;
+import com.example.sharkey.Entity.Hello;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

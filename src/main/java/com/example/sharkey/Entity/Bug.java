@@ -1,4 +1,4 @@
-package com.example.sharkey.Model;
+package com.example.sharkey.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

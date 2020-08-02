@@ -1,6 +1,6 @@
 package com.example.sharkey.Watcher.Service;
 
-import com.example.sharkey.Model.*;
+import com.example.sharkey.Entity.*;
 import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Mapper.ArticleMapper;
 import com.example.sharkey.Watcher.Mapper.TagMapper;

@@ -1,6 +1,4 @@
-package com.example.sharkey.Model;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.example.sharkey.Entity;
 
 public class RespBean {
     private Integer code;
@@ -25,6 +23,10 @@ public class RespBean {
 
     public static RespBean error(String msg, Object obj) {
         return new RespBean(500, msg, obj);
+    }
+
+    public static RespBean error(int code, String msg){
+        return new RespBean(code, msg, null);
     }
 
     private RespBean() {
@@ -61,5 +63,10 @@ public class RespBean {
     public RespBean setObj(Object obj) {
         this.obj = obj;
         return this;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("{\"code\":%d,\"msg\":\"%s\"}", code, msg);
     }
 }

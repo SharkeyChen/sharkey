@@ -1,6 +1,7 @@
 package com.example.sharkey.WebSocket;
 
 import com.example.sharkey.Utils.GameRoom;
+import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Utils.RoomGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class WebSocketServer {
 
     @PostConstruct
     public void init() {
-        System.out.println("websocket 加载");
+        MyLogger.logger("WebSocket加载(#^.^#)");
     }
     private static Logger log = LoggerFactory.getLogger(WebSocketServer.class);
     private static final AtomicInteger OnlineCount = new AtomicInteger(0);

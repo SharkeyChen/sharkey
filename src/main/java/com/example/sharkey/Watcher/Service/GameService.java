@@ -1,7 +1,7 @@
 package com.example.sharkey.Watcher.Service;
 
-import com.example.sharkey.Model.Game;
-import com.example.sharkey.Model.RespPageBean;
+import com.example.sharkey.Entity.Game;
+import com.example.sharkey.Entity.RespPageBean;
 import com.example.sharkey.Watcher.Mapper.GameMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

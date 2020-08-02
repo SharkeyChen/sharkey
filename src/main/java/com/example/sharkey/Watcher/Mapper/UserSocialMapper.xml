@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sharkey.Watcher.Mapper.UserSocialMapper">
+    <insert id="Insert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into usersocial
+        (uid, sid, url)
+        <foreach collection="list" separator="," item="item">
+            (#{item.uid}, #{item.sid}, #{item.url})
+        </foreach>
+    </insert>
+
+    <update id="Update" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            update usersocial
+            <set>
+                url=#{item.url}
+            </set>
+            <where>
+                uid = item.uid and sid = item.sid
+            </where>
+        </foreach>
+    </update>
+</mapper>

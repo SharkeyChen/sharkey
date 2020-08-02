@@ -1,8 +1,8 @@
 package com.example.sharkey.Watcher.Controller;
 
 
-import com.example.sharkey.Model.RespBean;
-import com.example.sharkey.Model.User;
+import com.example.sharkey.Entity.RespBean;
+import com.example.sharkey.Entity.User;
 import com.example.sharkey.Watcher.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

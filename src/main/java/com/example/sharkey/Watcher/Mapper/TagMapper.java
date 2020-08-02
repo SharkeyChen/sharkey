@@ -1,7 +1,7 @@
 package com.example.sharkey.Watcher.Mapper;
 
-import com.example.sharkey.Model.ArticleTag;
-import com.example.sharkey.Model.Tag;
+import com.example.sharkey.Entity.ArticleTag;
+import com.example.sharkey.Entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

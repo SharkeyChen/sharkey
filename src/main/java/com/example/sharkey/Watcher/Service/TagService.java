@@ -1,7 +1,7 @@
 package com.example.sharkey.Watcher.Service;
 
-import com.example.sharkey.Model.RespPageBean;
-import com.example.sharkey.Model.Tag;
+import com.example.sharkey.Entity.RespPageBean;
+import com.example.sharkey.Entity.Tag;
 import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;

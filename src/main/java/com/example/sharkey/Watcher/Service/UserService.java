@@ -1,13 +1,18 @@
 package com.example.sharkey.Watcher.Service;
 
-import com.example.sharkey.Model.RespBean;
-import com.example.sharkey.Model.RespPageBean;
-import com.example.sharkey.Model.User;
+/**
+ * Author:Sharkey
+ * Date:2020/8/1
+ */
+
+import com.example.sharkey.Entity.RespBean;
+import com.example.sharkey.Entity.RespPageBean;
+import com.example.sharkey.Entity.User;
+import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -61,5 +66,13 @@ public class UserService {
             return RespBean.ok("更新成功");
         }
         return RespBean.error("更新失败");
+    }
+
+    public boolean UpdateUserIp(int id, String ip){
+        if(userMapper.UpdateUserIp(id, ip)){
+            MyLogger.logger("Ip更新成功");
+            return true;
+        }
+        return false;
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sharkey.Watcher.Mapper.UtilsMapper">
+    <resultMap id="Socials" type="com.example.sharkey.Entity.UserSocial">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="uid" property="uid" jdbcType="INTEGER"></result>
+        <result column="sid" property="sid" jdbcType="INTEGER"></result>
+        <result column="url" property="url" jdbcType="VARCHAR"></result>
+        <association property="social" javaType="com.example.sharkey.Entity.Social">
+            <id column="s_id" property="id" jdbcType="INTEGER"></id>
+            <result column="s_name" property="name" jdbcType="VARCHAR"></result>
+            <result column="s_icon" property="icon" jdbcType="VARCHAR"></result>
+            <result column="s_color" property="color" jdbcType="VARCHAR"></result>
+            <result column="s_prefix" property="prefix" jdbcType="VARCHAR"></result>
+        </association>
+    </resultMap>
+    
+    <select id="getSocialList" resultType="com.example.sharkey.Entity.Social">
+        select * from social
+    </select>
+
+    <insert id="addUserSocial" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.sharkey.Entity.UserSocial">
+        insert into usersocial
+        (uid, sid, url) values (#{uid}, #{sid}, #{url})
+    </insert>
+
+    <select id="getSocialByUid" resultMap="Socials" parameterType="Integer">
+        select us.*, s.id s_id, s.name s_name, s.icon s_icon, s.color s_color, s.prefix s_prefix
+        from social s, usersocial us where us.sid = s.id and us.uid = #{uid}
+    </select>
+
+    <delete id="deleteSocialById" parameterType="Integer">
+        delete from usersocial
+        where id = #{id}
+    </delete>
+</mapper>

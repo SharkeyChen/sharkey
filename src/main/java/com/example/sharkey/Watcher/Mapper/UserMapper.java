@@ -1,6 +1,6 @@
 package com.example.sharkey.Watcher.Mapper;
 
-import com.example.sharkey.Model.User;
+import com.example.sharkey.Entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,4 +18,6 @@ public interface UserMapper {
     List<User> getUsersByListParams(List<String> list);
 
     boolean UpdateUserInfo(User user);
+
+    boolean UpdateUserIp(int id, String ip);
 }

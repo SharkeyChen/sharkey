@@ -1,7 +1,6 @@
-package com.example.sharkey.Model;
+package com.example.sharkey.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.Date;

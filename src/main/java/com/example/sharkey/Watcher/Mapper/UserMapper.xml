@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sharkey.Watcher.Mapper.UserMapper">
-    <select id="getUserByPrimaryAccount" resultType="com.example.sharkey.Model.User">
+    <select id="getUserByPrimaryAccount" resultType="com.example.sharkey.Entity.User">
         select * from user
         where username = #{username}
     </select>
@@ -14,15 +14,15 @@
         where username = #{username}
     </update>
 
-    <select id="getAllUsers" resultType="com.example.sharkey.Model.User">
+    <select id="getAllUsers" resultType="com.example.sharkey.Entity.User">
         select * from user
     </select>
 
-    <insert id="insertUser" parameterType="com.example.sharkey.Model.User">
+    <insert id="insertUser" parameterType="com.example.sharkey.Entity.User">
         insert into user(username, password, nickname, sysnopsis, profile) values (#{username}, #{password}, #{nickname}, #{sysnopsis}, #{profile})
     </insert>
 
-    <select id="getUsersByListParams" resultType="com.example.sharkey.Model.User">
+    <select id="getUsersByListParams" resultType="com.example.sharkey.Entity.User">
         select * from user
         where user.username in
         <foreach collection="list" item="username" index="index" open="(" close=")" separator=",">
@@ -30,12 +30,21 @@
         </foreach>
     </select>
 
-    <update id="UpdateUserInfo" parameterType="com.example.sharkey.Model.User">
+    <update id="UpdateUserInfo" parameterType="com.example.sharkey.Entity.User">
         update user
         <set>
             <if test="nickname != null">nickname=#{nickname},</if>
             <if test="sysnopsis != null">sysnopsis=#{sysnopsis},</if>
+            <if test="console != null">console=#{console},</if>
         </set>
             where id = #{id} and username = #{username}
+    </update>
+
+    <update id="UpdateUserIp" parameterType="int">
+        update user
+        <set>
+            <if test="ip != null">ip = #{ip}</if>
+        </set>
+        where id = #{id}
     </update>
 </mapper>
