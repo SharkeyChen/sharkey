@@ -15,10 +15,15 @@
         </collection>
     </resultMap>
 
-
     <select id="getAllArticle" resultMap="ArticleInfo">
         select a.id, a.title, a.publishtime, a.subtitle, a.content, a.html, a.author, t.id t_id, t.tag t_tag from article a left join articletag atg on a.id = atg.articleid
         left join tag t on atg.tagid = t.id
+    </select>
+
+    <select id="getArticleListById" parameterType="String" resultMap="ArticleInfo">
+        select a.id, a.title, a.publishtime, a.subtitle, a.content, a.html, a.author, t.id t_id, t.tag t_tag
+        from article a left join articletag atg on a.id = atg.articleid left join tag t on atg.tagid = t.id
+        where a.author = #{username}
     </select>
 
     <insert id="addArticle" parameterType="com.example.sharkey.Entity.Article" keyProperty="id" useGeneratedKeys="true">
@@ -26,4 +31,20 @@
         article(title, subtitle, content, publishtime, author, html)
         values(#{title}, #{subtitle}, #{content}, #{publishtime}, #{author}, #{html})
     </insert>
+
+    <delete id="deleteArticle" parameterType="int">
+        delete from article
+        where id = #{articleId}
+    </delete>
+
+    <update id="updateArticle" parameterType="com.example.sharkey.Entity.Article">
+        update article
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="subtitle != null">subtitle = #{subtitle},</if>
+            <if test="html != null">html = #{html}</if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

@@ -1,8 +1,6 @@
 package com.example.sharkey.Watcher.Controller;
 
-import com.example.sharkey.Entity.RespBean;
-import com.example.sharkey.Entity.RespPageBean;
-import com.example.sharkey.Entity.User;
+import com.example.sharkey.Entity.*;
 import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +74,31 @@ public class UserController {
     @PutMapping("/updateInfo")
     RespBean updateUserInfo(@RequestBody User user){
         return userService.UpdateUserInfo(user);
+    }
+
+    @GetMapping("/clockin")
+    RespPageBean getClockInList(@RequestParam("username")String username){
+        return userService.getClockListByUserName(username);
+    }
+
+    @PutMapping("/clockin")
+    RespBean insertClock(@RequestBody ClockIn ci){
+        return userService.insertClockIn(ci);
+    }
+
+    @GetMapping("/memo")
+    RespPageBean getMemoList(@RequestParam("username")String username){
+        return userService.getMemoListByUserName(username);
+    }
+
+    @PutMapping("/memo")
+    RespBean insertMemo(@RequestBody Memo memo){
+        return userService.insertMemo(memo);
+    }
+
+    @DeleteMapping("/memo")
+    RespBean deleteMemo(@RequestBody Memo memo){
+        MyLogger.logger(memo.getMemo());
+        return userService.deleteMemo(memo);
     }
 }

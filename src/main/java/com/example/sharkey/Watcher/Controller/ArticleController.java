@@ -25,4 +25,19 @@ public class ArticleController {
         article.setPublishtime(new Date());
         return articleService.addArticle(article);
     }
+
+    @GetMapping("/getmylist")
+    public RespPageBean getArticleListById(@RequestParam("username") String username){
+        return articleService.getArticleListById(username);
+    }
+
+    @DeleteMapping("/delete")
+    public RespBean deleteArticleById(@RequestBody Article article){
+        return articleService.deleteArticle(article);
+    }
+
+    @PostMapping("/update")
+    public RespBean updateArticle(@RequestBody Article article){
+        return articleService.updateArticle(article);
+    }
 }

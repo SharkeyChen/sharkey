@@ -47,4 +47,31 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="getClockInList" resultType="com.example.sharkey.Entity.ClockIn">
+        select id, username, date
+        from clockin
+        where username = #{username}
+    </select>
+
+    <insert id="insertClockIn" parameterType="com.example.sharkey.Entity.ClockIn" useGeneratedKeys="true">
+        insert into clockin
+        (username, date) values (#{username}, #{date})
+    </insert>
+
+    <select id="getMemoList" resultType="com.example.sharkey.Entity.Memo">
+        select id, username, date, memo
+        from memo
+        where username = #{username}
+    </select>
+
+    <insert id="insertMemo" parameterType="com.example.sharkey.Entity.Memo" useGeneratedKeys="true">
+        insert into memo
+        (username, date, memo) values (#{username}, #{date}, #{memo})
+    </insert>
+
+    <delete id="deleteMemo" parameterType="com.example.sharkey.Entity.Memo">
+        delete from memo
+        where username = #{username} and memo = #{memo} and date = #{date}
+    </delete>
 </mapper>

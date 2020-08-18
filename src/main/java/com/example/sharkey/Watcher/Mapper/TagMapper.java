@@ -8,9 +8,13 @@ import java.util.List;
 
 @Mapper
 public interface TagMapper {
-    public List<Tag> getTagListByTitle(String title);
+    List<Tag> getTagListByTitle(String title);
 
-    public boolean insertTagList(List<Tag> list);
+    boolean insertTagList(List<Tag> list);
 
-    public boolean insertMapperForArticleTag(List<ArticleTag> list);
+    boolean insertMapperForArticleTag(List<ArticleTag> list);
+
+    Integer deleteMapperForArticleTag(int articleId);
+
+    boolean deleteMapperByList(List<ArticleTag> list);
 }

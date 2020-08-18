@@ -5,9 +5,7 @@ package com.example.sharkey.Watcher.Service;
  * Date:2020/8/1
  */
 
-import com.example.sharkey.Entity.RespBean;
-import com.example.sharkey.Entity.RespPageBean;
-import com.example.sharkey.Entity.User;
+import com.example.sharkey.Entity.*;
 import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +72,52 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public RespPageBean getClockListByUserName(String username){
+        List<ClockIn> list = userMapper.getClockInList(username);
+        RespPageBean bean = new RespPageBean();
+        bean.setData(list);
+        bean.setTotal(Long.parseLong(String.valueOf(list.size())));
+        return bean;
+    }
+
+    public RespBean insertClockIn(ClockIn ci){
+        try{
+            userMapper.insertClockIn(ci);
+        }catch (Exception e){
+            MyLogger.logger(e.getMessage());
+            return RespBean.error("打卡失败");
+        }
+        return RespBean.ok("打卡成功");
+    }
+
+    public RespPageBean getMemoListByUserName(String username){
+        List<Memo> data = userMapper.getMemoList(username);
+        RespPageBean bean = new RespPageBean();
+        bean.setData(data);
+        bean.setTotal(Long.parseLong(String.valueOf(data.size())));
+        return bean;
+    }
+
+    public RespBean insertMemo(Memo memo){
+        try{
+            userMapper.insertMemo(memo);
+        }catch (Exception e){
+            MyLogger.logger(e.getMessage());
+            return RespBean.error("添加失败");
+        }
+        return RespBean.ok("添加成功");
+    }
+
+    public RespBean deleteMemo(Memo memo){
+        try{
+            MyLogger.logger(memo.getMemo());
+            userMapper.deleteMemo(memo);
+        }catch (Exception e){
+            MyLogger.logger(e.getMessage());
+            return RespBean.error("删除失败");
+        }
+        return RespBean.ok("删除成功");
     }
 }

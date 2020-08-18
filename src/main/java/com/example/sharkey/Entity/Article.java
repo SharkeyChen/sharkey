@@ -47,7 +47,7 @@ public class Article {
     public List<Tag> BgetNewTagList(){
         List<Tag> list = new ArrayList<Tag>();
         for(Tag t : tags){
-            if(t.getId() == -1){
+            if(t.getStatus() == Tag.INSERT){
                 list.add(t);
             }
         }

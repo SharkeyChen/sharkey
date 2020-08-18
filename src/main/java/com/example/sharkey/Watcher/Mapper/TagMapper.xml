@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sharkey.Watcher.Mapper.TagMapper">
+
     <select id="getTagListByTitle" parameterType="java.lang.String" resultType="com.example.sharkey.Entity.Tag">
         select * from tag
         where INSTR(lower(#{title}), lower(tag))
@@ -21,4 +22,17 @@
             (#{item.articleid}, #{item.tagid})
         </foreach>
     </insert>
+
+    <delete id="deleteMapperForArticleTag" parameterType="int">
+        delete from articletag
+        where articleid = #{articleId}
+    </delete>
+
+    <delete id="deleteMapperByList" parameterType="com.example.sharkey.Entity.ArticleTag">
+        delete from articletag where
+        <foreach collection="list" index="index" item="item" separator="or">
+            (tagid = #{item.tagid} and articleid = #{item.articleid})
+        </foreach>
+    </delete>
+
 </mapper>

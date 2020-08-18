@@ -7,7 +7,13 @@ import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
-    public List<Article> getAllArticle();
+    List<Article> getAllArticle();
 
-    public boolean addArticle(Article article);
+    boolean addArticle(Article article);
+
+    List<Article> getArticleListById(String username);
+
+    boolean deleteArticle(int articleId);
+
+    boolean updateArticle(Article article);
 }
