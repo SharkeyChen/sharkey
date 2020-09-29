@@ -19,6 +19,16 @@ public class Memo {
 
     private String memo;
 
+    private String email;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -49,5 +59,10 @@ public class Memo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString(){
+        return getUsername() + " " + getMemo() + " " + getEmail() + " " + getDate().toString();
     }
 }

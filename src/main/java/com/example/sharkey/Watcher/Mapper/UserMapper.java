@@ -5,6 +5,7 @@ import com.example.sharkey.Entity.Memo;
 import com.example.sharkey.Entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -32,4 +33,6 @@ public interface UserMapper {
     boolean insertMemo(Memo memo);
 
     boolean deleteMemo(Memo memo);
+
+    List<Memo> getMemoToday();
 }

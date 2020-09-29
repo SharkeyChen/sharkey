@@ -13,6 +13,8 @@ public interface ArticleMapper {
 
     List<Article> getArticleListById(String username);
 
+    Article getArticleById(int id, String author);
+
     boolean deleteArticle(int articleId);
 
     boolean updateArticle(Article article);

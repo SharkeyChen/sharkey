@@ -20,6 +20,11 @@ public class ArticleController {
         return articleService.getArticleByPage();
     }
 
+    @GetMapping("/getone")
+    public RespBean getArticleById(@RequestParam("id")int id, @RequestParam("author")String author){
+        return articleService.getArticleById(id, author);
+    }
+
     @PostMapping("/add")
     public RespBean addArticle(@RequestBody Article article){
         article.setPublishtime(new Date());

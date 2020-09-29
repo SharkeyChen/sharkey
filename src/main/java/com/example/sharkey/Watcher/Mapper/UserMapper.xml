@@ -74,4 +74,10 @@
         delete from memo
         where username = #{username} and memo = #{memo} and date = #{date}
     </delete>
+
+    <select id="getMemoToday" parameterType="date" resultType="com.example.sharkey.Entity.Memo">
+        select m.id, m.username, m.date, m.memo, u.email
+        from memo m left join user u on m.username = u.username
+        where to_days(m.date) = to_days(now())
+    </select>
 </mapper>

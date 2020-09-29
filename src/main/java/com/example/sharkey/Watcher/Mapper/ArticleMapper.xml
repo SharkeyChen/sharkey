@@ -6,8 +6,8 @@
         <result column="title" property="title" jdbcType="VARCHAR"></result>
         <result column="publishtime" property="publishtime" jdbcType="TIMESTAMP"></result>
         <result column="subtitle" property="subtitle" jdbcType="VARCHAR"></result>
-        <result column="content" property="content" jdbcType="VARCHAR"></result>
-        <result column="html" property="html" jdbcType="VARCHAR"></result>
+<!--        <result column="content" property="content" jdbcType="VARCHAR"></result>-->
+<!--        <result column="html" property="html" jdbcType="VARCHAR"></result>-->
         <result column="author" property="author" jdbcType="VARCHAR"></result>
         <collection property="tags" javaType="java.util.List" ofType="com.example.sharkey.Entity.Tag">
             <id column="t_id" property="id" jdbcType="INTEGER"></id>
@@ -16,14 +16,20 @@
     </resultMap>
 
     <select id="getAllArticle" resultMap="ArticleInfo">
-        select a.id, a.title, a.publishtime, a.subtitle, a.content, a.html, a.author, t.id t_id, t.tag t_tag from article a left join articletag atg on a.id = atg.articleid
+        select a.id, a.title, a.publishtime, a.subtitle, a.author, t.id t_id, t.tag t_tag from article a left join articletag atg on a.id = atg.articleid
         left join tag t on atg.tagid = t.id
     </select>
 
     <select id="getArticleListById" parameterType="String" resultMap="ArticleInfo">
-        select a.id, a.title, a.publishtime, a.subtitle, a.content, a.html, a.author, t.id t_id, t.tag t_tag
+        select a.id, a.title, a.publishtime, a.subtitle, a.author, t.id t_id, t.tag t_tag
         from article a left join articletag atg on a.id = atg.articleid left join tag t on atg.tagid = t.id
         where a.author = #{username}
+    </select>
+
+    <select id="getArticleById" resultType="com.example.sharkey.Entity.Article">
+        select a.id, a.title, a.publishtime, a.subtitle, a.author, a.content, a.html
+        from article a
+        where id = #{id} and author = #{author}
     </select>
 
     <insert id="addArticle" parameterType="com.example.sharkey.Entity.Article" keyProperty="id" useGeneratedKeys="true">

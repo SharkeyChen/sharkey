@@ -17,6 +17,8 @@ public class RespBean {
         return new RespBean(200, msg, obj);
     }
 
+    public static RespBean ok(int code, Object obj){return new RespBean(code,"", obj);}
+
     public static RespBean error(String msg) {
         return new RespBean(500, msg, null);
     }

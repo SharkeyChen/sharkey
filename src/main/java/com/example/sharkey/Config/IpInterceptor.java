@@ -25,7 +25,7 @@ public class IpInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         String ip = IpUtil.getIpAddr(request);
-//        MyLogger.logger("Ip : " + ip);
+        MyLogger.logger("Ip : " + ip);
         response.setHeader("Content-type", "text/html;charset=UTF-8");
         response.setCharacterEncoding("utf-8");
         if(!StringUtils.isNotBlank(ip)){

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.sharkey.Watcher.Mapper.HelloMapper">
-    <select id="getHello" resultType="com.example.sharkey.Entity.Hello">
-        select * from hello where id = 1;
-    </select>
-</mapper>

@@ -133,4 +133,16 @@ public class ArticleService {
         }
         return RespBean.ok("更新成功");
     }
+
+    public RespBean getArticleById(int id, String author){
+        try{
+            Article data = articleMapper.getArticleById(id, author);
+            if(data == null){
+                return RespBean.error(40400, "文章不存在");
+            }
+            return RespBean.ok(20200, data);
+        }catch (Exception e){
+            return RespBean.error("查询失败");
+        }
+    }
 }
