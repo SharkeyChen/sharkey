@@ -19,8 +19,23 @@
     </select>
 
     <insert id="insertUser" parameterType="com.example.sharkey.Entity.User">
-        insert into user(username, password, nickname, sysnopsis, profile) values (#{username}, #{password}, #{nickname}, #{sysnopsis}, #{profile})
+        insert into user(username, password, nickname, email)
+        values (
+        <if test="username != null">#{username},</if>
+        <if test="password != null">#{password},</if>
+        <if test="nickname != null">#{nickname},</if>
+        <if test="email != null">#{email}</if>)
     </insert>
+
+    <select id="getUserNum" parameterType="String" resultType="Integer">
+        select count(id) from user
+        where <if test="username != null">username = #{username}</if>
+    </select>
+
+    <select id="getEmailNum" parameterType="String" resultType="Integer">
+        select count(id) from user
+        where <if test="email != null">email = #{email}</if>
+    </select>
 
     <select id="getUsersByListParams" resultType="com.example.sharkey.Entity.User">
         select * from user
@@ -36,8 +51,9 @@
             <if test="nickname != null">nickname=#{nickname},</if>
             <if test="sysnopsis != null">sysnopsis=#{sysnopsis},</if>
             <if test="console != null">console=#{console},</if>
+            <if test="email != null">email=#{email}</if>
         </set>
-            where id = #{id} and username = #{username}
+        where id = #{id} and username = #{username}
     </update>
 
     <update id="UpdateUserIp" parameterType="int">
@@ -79,5 +95,12 @@
         select m.id, m.username, m.date, m.memo, u.email
         from memo m left join user u on m.username = u.username
         where to_days(m.date) = to_days(now())
+    </select>
+
+    <select id="getDIYPageByUsername" resultType="com.example.sharkey.Entity.DIYPage">
+        select dp.id, dp.username, dp.path
+        from diypage dp
+        where
+        <if test="username != null">username = #{username}</if>
     </select>
 </mapper>

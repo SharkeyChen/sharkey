@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sharkey.Watcher.Mapper.NotifyMapper">
+    <resultMap id="BaseNotify" type="com.example.sharkey.Entity.Notify">
+        <id property="id" column="id"></id>
+        <result property="toid" column="toid"></result>
+        <result property="message" column="message"></result>
+        <result property="authorid" column="authorid"></result>
+        <result property="time" column="time"></result>
+        <association property="user" javaType="com.example.sharkey.Entity.User">
+            <id property="id" column="u_id"></id>
+            <result property="profile" column="u_profile"></result>
+            <result property="nickname" column="u_nickname"></result>
+        </association>
+    </resultMap>
+
+    <select id="getNotificationsByUsername" resultMap="BaseNotify">
+        select n.id, n.toid, n.message, n.authorid, n.time, u.profile u_profile, u.id u_id, u.nickname u_nickname
+        from notify n left join user u on n.authorid = u.id
+        where n.toid = #{uid} OR n.toid = 0
+    </select>
+</mapper>

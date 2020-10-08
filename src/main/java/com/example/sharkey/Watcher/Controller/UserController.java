@@ -101,4 +101,9 @@ public class UserController {
         MyLogger.logger(memo.getMemo());
         return userService.deleteMemo(memo);
     }
+
+    @GetMapping("/diypage")
+    RespBean getDIYPage(@RequestParam("username")String username){
+        return userService.getDIYPageByUsername(username);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.sharkey.Watcher.Mapper;
 
 import com.example.sharkey.Entity.ClockIn;
+import com.example.sharkey.Entity.DIYPage;
 import com.example.sharkey.Entity.Memo;
 import com.example.sharkey.Entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,6 +16,10 @@ public interface UserMapper {
     boolean changeProfile(String profile, String username);
 
     List<User> getAllUsers();
+
+    int getUserNum(String username);
+
+    int getEmailNum(String email);
 
     boolean insertUser(User user);
 
@@ -35,4 +40,6 @@ public interface UserMapper {
     boolean deleteMemo(Memo memo);
 
     List<Memo> getMemoToday();
+
+    DIYPage getDIYPageByUsername(String username);
 }

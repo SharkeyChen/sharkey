@@ -31,12 +31,24 @@ public class UserService {
     }
 
     public RespBean insertUser(User user){
-        boolean result = userMapper.insertUser(user);
-        if(result == false){
-            return RespBean.error("注册失败(可能是用户名已被使用)");
-        }
-        else{
+        try{
+            int num = 0;
+            num = userMapper.getUserNum(user.getUsername());
+            if(num > 0){
+                return RespBean.error("用户名重复");
+            }
+            num = userMapper.getEmailNum(user.getEmail());
+            if(num > 0){
+                return RespBean.error("邮箱已被注册");
+            }
+            boolean result = userMapper.insertUser(user);
+            if(!result){
+                return RespBean.error("注册失败");
+            }
             return RespBean.ok("注册成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return RespBean.error("注册失败");
         }
     }
 
@@ -119,5 +131,18 @@ public class UserService {
             return RespBean.error("删除失败");
         }
         return RespBean.ok("删除成功");
+    }
+
+    public RespBean getDIYPageByUsername(String username){
+        try{
+            DIYPage data = userMapper.getDIYPageByUsername(username);
+            if(data == null){
+                return RespBean.error("个人网页不存在");
+            }
+            return RespBean.ok("获取成功", data);
+        }catch (Exception e){
+            e.printStackTrace();
+            return RespBean.error("未知错误");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.sharkey.Task;
 
 import com.example.sharkey.Entity.Memo;
+import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Mapper.UserMapper;
 import com.example.sharkey.Watcher.Service.MailService;
 import org.apache.commons.lang.StringUtils;
@@ -25,13 +26,14 @@ public class MemTask {
 
     private final Logger logger = LoggerFactory.getLogger(MemTask.class);
 
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(cron = "0 0 8 * * ?")
     public void SendMailToRemind(){
         List<Memo> list = userMapper.getMemoToday();
         for(int i = 0;i < list.size();i ++){
             if(StringUtils.isBlank(list.get(i).getEmail())){
                 continue;
             }
+            logger.info(list.get(i).getMemo());
             StringBuffer res = new StringBuffer();
             res.append("尊敬的").append(list.get(i).getUsername()).append(":\n");
             res.append("          您有个备忘录，其内容是“").append(list.get(i).getMemo()).append("”,请想回想一下哦");

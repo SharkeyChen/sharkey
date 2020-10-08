@@ -19,7 +19,17 @@ public class User {
 
     private String ip;
 
+    private String email;
+
     private List<UserSocial> userSocials;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public List<UserSocial> getUserSocials() {
         return userSocials;
