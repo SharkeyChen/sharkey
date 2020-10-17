@@ -1,6 +1,7 @@
 package com.example.sharkey.Entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Notify {
     private int id;
@@ -14,6 +15,16 @@ public class Notify {
     private Timestamp time;
 
     private User user;
+
+    private List<User> toUser;
+
+    public List<User> getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(List<User> toUser) {
+        this.toUser = toUser;
+    }
 
     public int getAuthorid() {
         return authorid;
@@ -46,7 +57,6 @@ public class Notify {
     public User getUser() {
         return user;
     }
-
 
     public void setId(int id) {
         this.id = id;

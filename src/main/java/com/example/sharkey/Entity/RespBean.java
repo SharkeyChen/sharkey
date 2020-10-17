@@ -19,6 +19,10 @@ public class RespBean {
 
     public static RespBean ok(int code, Object obj){return new RespBean(code,"", obj);}
 
+    public static RespBean ok(int code, String msg, Object obj){
+        return new RespBean(code, msg, obj);
+    }
+
     public static RespBean error(String msg) {
         return new RespBean(500, msg, null);
     }

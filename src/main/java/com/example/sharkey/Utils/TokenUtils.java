@@ -21,7 +21,7 @@ public class TokenUtils {
     // Token秘钥
     private static final String TOKEN_SECRET = "vQ4rxAqUPDmGRa8txwPQXrE9IYQtn3qb";
 
-
+    private static final long SHORT_EXPIRE_TIME = 1000 * 60 * 3;
     /**
      * 生成Token
      * @param username
@@ -37,7 +37,6 @@ public class TokenUtils {
             Map<String, Object> header = new HashMap();
             header.put("typ", "JWT");
             header.put("alg", "HS256");
-
             token = JWT.create().withHeader(header)
                     .withClaim("username", username)
                     .withClaim("password", password)
@@ -69,4 +68,24 @@ public class TokenUtils {
         return false;
     }
 
+    public static String getEmailShortToken(String username, String email){
+        String token = "";
+        try{
+            Date date = new Date(System.currentTimeMillis() + SHORT_EXPIRE_TIME);
+            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+            //头部信息
+            Map<String, Object> header = new HashMap();
+            header.put("typ", "JWT");
+            header.put("alg", "HS256");
+            token = JWT.create().withHeader(header)
+                    .withClaim("username", username)
+                    .withClaim("email", email)
+                    .withExpiresAt(date)
+                    .sign(algorithm);
+        }catch (Exception e){
+            MyLogger.logger(e.getMessage());
+            MyLogger.logger("Token生成失败！");
+        }
+        return token;
+    }
 }

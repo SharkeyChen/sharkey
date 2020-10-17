@@ -12,11 +12,22 @@
             <result property="profile" column="u_profile"></result>
             <result property="nickname" column="u_nickname"></result>
         </association>
+        <collection property="toUser" javaType="list" ofType="com.example.sharkey.Entity.User">
+            <id property="id" column="to_id"></id>
+            <result property="email" column="to_email"></result>
+            <result property="nickname" column="to_nickname"></result>
+        </collection>
     </resultMap>
 
     <select id="getNotificationsByUsername" resultMap="BaseNotify">
         select n.id, n.toid, n.message, n.authorid, n.time, u.profile u_profile, u.id u_id, u.nickname u_nickname
         from notify n left join user u on n.authorid = u.id
         where n.toid = #{uid} OR n.toid = 0
+    </select>
+
+    <select id="getNotificationToday" resultMap="BaseNotify" parameterType="java.util.Date">
+        select n.id, n.toid, n.message, n.authorid, n.time, u.profile u_profile, u.id u_id, u.nickname u_nickname,uu.id to_id, uu.email to_email, uu.nickname to_nickname
+        from notify n left join user u on n.authorid = u.id left join user uu on n.toid = 0 OR n.toid = uu.id left join userconfig uc on uu.id = uc.uid
+        where to_days(n.time) = to_days(#{date}) and uc.mailnotify = true
     </select>
 </mapper>

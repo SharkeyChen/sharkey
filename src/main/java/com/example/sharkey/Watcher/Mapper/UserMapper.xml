@@ -92,15 +92,62 @@
     </delete>
 
     <select id="getMemoToday" parameterType="date" resultType="com.example.sharkey.Entity.Memo">
-        select m.id, m.username, m.date, m.memo, u.email
+        select m.id, m.username, m.date, m.memo, u.email, u.nickname
         from memo m left join user u on m.username = u.username
         where to_days(m.date) = to_days(now())
     </select>
 
     <select id="getDIYPageByUsername" resultType="com.example.sharkey.Entity.DIYPage">
-        select dp.id, dp.username, dp.path
+        select dp.id, dp.username, dp.path, dp.type
         from diypage dp
         where
         <if test="username != null">username = #{username}</if>
     </select>
+
+    <insert id="insertDIYPage" parameterType="com.example.sharkey.Entity.DIYPage" useGeneratedKeys="true" keyProperty="id">
+        insert into diypage
+        (username, path, type) values(#{username}, #{path}, #{type})
+    </insert>
+
+    <delete id="deleteDIYPage">
+        delete from diypage
+        where username = #{username}
+    </delete>
+
+    <select id="getUserConfigByUserName" resultType="com.example.sharkey.Entity.UserConfig">
+        select uc.id, uc.uid, uc.mailnotify
+        from user u left join userconfig uc on u.id = uc.uid
+        where u.username = #{username}
+    </select>
+
+    <update id="updateUserConfig" parameterType="com.example.sharkey.Entity.UserConfig">
+        update userconfig
+        <set>
+            <if test="mailnotify != null">mailnotify = #{mailnotify},</if>
+        </set>
+        where uid = #{uid}
+    </update>
+
+    <select id="getVoteConfig" resultType="com.example.sharkey.Entity.VoteConfig">
+        select v.id, v.uid, v.token, v.enable
+        from vote v left join user u on v.uid = u.id
+        where u.username = #{username}
+    </select>
+
+    <update id="updateVoteConfig" parameterType="com.example.sharkey.Entity.VoteConfig">
+        update vote
+        <set>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="token != null">token = #{token}</if>
+        </set>
+        where uid = #{uid}
+    </update>
+
+    <update id="updateCheckEmailByUsername" parameterType="String">
+        update user
+        <set>
+            checkEmail = true
+        </set>
+        where username = #{username}
+        </update>
 </mapper>

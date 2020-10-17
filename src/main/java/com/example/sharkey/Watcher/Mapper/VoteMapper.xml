@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sharkey.Watcher.Mapper.VoteMapper">
+    <resultMap id="BaseVote" type="com.example.sharkey.Entity.VoteConfig">
+        <id property="id" column="id"></id>
+        <result property="uid" column="uid"></result>
+        <result property="token" column="token"></result>
+        <result property="enable" column="enable"></result>
+        <association property="user" javaType="com.example.sharkey.Entity.User">
+            <id property="id" column="u_id"></id>
+            <result property="profile" column="u_profile"></result>
+            <result property="nickname" column="u_nickname"></result>
+            <result property="email" column="u_email"></result>
+        </association>
+    </resultMap>
+
+    <select id="getVerifyVote" resultMap="BaseVote">
+        select v.id, v.uid, v.token, v.enable, u.id u_id, u.profile u_profile, u.nickname u_nickname, u.email u_email
+        from vote v left join user u on v.uid = u.id
+        where v.enable = true and u.checkEmail = true
+    </select>
+</mapper>

@@ -2,7 +2,9 @@ package com.example.sharkey.Watcher.Service;
 
 import com.example.sharkey.Entity.Notify;
 import com.example.sharkey.Entity.RespPageBean;
+import com.example.sharkey.Entity.UserConfig;
 import com.example.sharkey.Watcher.Mapper.NotifyMapper;
+import com.example.sharkey.Watcher.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +28,5 @@ public class NotifyService {
             return data;
         }
     }
+
 }

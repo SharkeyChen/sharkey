@@ -8,9 +8,13 @@ package com.example.sharkey.Watcher.Service;
 import com.example.sharkey.Entity.*;
 import com.example.sharkey.Utils.MyLogger;
 import com.example.sharkey.Watcher.Mapper.UserMapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -21,12 +25,17 @@ public class UserService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private FileService fileService;
+
+    @Value("${sharkey.static.img.path}")
+    private String prefix;
+
     public User getUserByPrimaryAccount(String username){
         return userMapper.getUserByPrimaryAccount(username);
     }
 
     public boolean changeProfile(String profile, String username){
-        System.out.println(profile + " " + username);
         return userMapper.changeProfile(profile, username);
     }
 
@@ -137,12 +146,97 @@ public class UserService {
         try{
             DIYPage data = userMapper.getDIYPageByUsername(username);
             if(data == null){
-                return RespBean.error("个人网页不存在");
+                return RespBean.error(29400, "个人网页不存在");
             }
-            return RespBean.ok("获取成功", data);
+            return RespBean.ok(29200,"获取成功", data);
+        }catch (Exception e){
+            e.printStackTrace();
+            return RespBean.error(29400,"未知错误");
+        }
+    }
+
+    public RespBean insertDIYPage(String username, String[] paths){
+        for(String path: paths){
+            if(path.endsWith("index.html")){
+                try{
+                    DIYPage diyPage = new DIYPage();
+                    diyPage.setPath("/DIYPage/" + username + path);
+                    diyPage.setUsername(username);
+                    diyPage.setType(2);
+                    userMapper.insertDIYPage(diyPage);
+                    return RespBean.ok("插入成功");
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return RespBean.error("未知错误");
+                }
+            }
+        }
+        return RespBean.error("上传格式有问题");
+    }
+
+    public RespBean insertDIYPage(DIYPage diyPage){
+        try{
+            userMapper.insertDIYPage(diyPage);
+            return RespBean.ok("添加成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return RespBean.error("添加失败");
+        }
+    }
+
+    public RespBean deleteDIYPage(String username){
+        if(StringUtils.isBlank(username)){
+            return RespBean.error("请求失败");
+        }
+        try{
+            DIYPage diyPage = userMapper.getDIYPageByUsername(username);
+            if(diyPage.getType() == 2){
+                boolean res = fileService.deleteDir(new File(prefix + File.separator + "DIYPage" +File.separator + username));
+                if(!res){
+                    return RespBean.error("未知错误");
+                }
+            }
+            userMapper.deleteDIYPage(username);
+            return RespBean.ok("删除成功");
         }catch (Exception e){
             e.printStackTrace();
             return RespBean.error("未知错误");
+        }
+    }
+
+    public RespBean getUserConfigByUserName(String username){
+        try{
+            UserConfig userConfig = userMapper.getUserConfigByUserName(username);
+            return RespBean.ok(29200, userConfig);
+        }catch (Exception e){
+            return RespBean.error("执行错误");
+        }
+    }
+
+    public RespBean updateUserConfig(UserConfig userConfig){
+        try{
+            userMapper.updateUserConfig(userConfig);
+            return RespBean.ok("修改陈坤");
+        }catch (Exception e){
+            return RespBean.error("修改失败");
+        }
+    }
+
+    public RespBean getVoteConfigByUsername(String username){
+        try{
+            VoteConfig voteConfig = userMapper.getVoteConfig(username);
+            return RespBean.ok(29200, voteConfig);
+        }catch (Exception e){
+            return RespBean.error("执行错误");
+        }
+    }
+
+    public RespBean updateVoteConfig(VoteConfig voteConfig){
+        try{
+            userMapper.updateVoteConfig(voteConfig);
+            return RespBean.ok("修改陈坤");
+        }catch (Exception e){
+            return RespBean.error("修改失败");
         }
     }
 }

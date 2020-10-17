@@ -21,6 +21,8 @@ public class User {
 
     private String email;
 
+    private boolean checkEmail;
+
     private List<UserSocial> userSocials;
 
     public String getEmail() {
@@ -60,6 +62,12 @@ public class User {
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+    public void setCheckEmail(boolean checkEmail) {
+        this.checkEmail = checkEmail;
+    }
+
+    public boolean getCheckEmail(){return checkEmail;}
 
     public void Print(){
         System.out.println("username:" + this.getUsername() + "\n"

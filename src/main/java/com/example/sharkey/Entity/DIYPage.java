@@ -13,6 +13,16 @@ public class DIYPage {
 
     private String path;
 
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

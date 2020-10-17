@@ -21,6 +21,16 @@ public class Memo {
 
     private String email;
 
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
