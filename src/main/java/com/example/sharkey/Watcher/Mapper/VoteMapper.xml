@@ -6,6 +6,10 @@
         <result property="uid" column="uid"></result>
         <result property="token" column="token"></result>
         <result property="enable" column="enable"></result>
+        <result property="address" column="address"></result>
+        <result property="lat" column="lat"></result>
+        <result property="lng" column="lng"></result>
+        <result property="province" column="province"></result>
         <association property="user" javaType="com.example.sharkey.Entity.User">
             <id property="id" column="u_id"></id>
             <result property="profile" column="u_profile"></result>
@@ -15,7 +19,7 @@
     </resultMap>
 
     <select id="getVerifyVote" resultMap="BaseVote">
-        select v.id, v.uid, v.token, v.enable, u.id u_id, u.profile u_profile, u.nickname u_nickname, u.email u_email
+        select v.id, v.uid, v.token, v.enable, v.address, v.lat, v.lng, v.province, u.id u_id, u.profile u_profile, u.nickname u_nickname, u.email u_email
         from vote v left join user u on v.uid = u.id
         where v.enable = true and u.checkEmail = true
     </select>

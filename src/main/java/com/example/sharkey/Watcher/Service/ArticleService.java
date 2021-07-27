@@ -3,7 +3,8 @@ package com.example.sharkey.Watcher.Service;
 /**
  * Author: Sharkey
  * Date: 2020/8/2
- */
+ * Description: 关于文章的所有Service
+ **/
 
 import com.example.sharkey.Entity.*;
 import com.example.sharkey.Utils.MyLogger;

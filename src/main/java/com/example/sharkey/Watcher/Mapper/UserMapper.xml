@@ -129,7 +129,7 @@
     </update>
 
     <select id="getVoteConfig" resultType="com.example.sharkey.Entity.VoteConfig">
-        select v.id, v.uid, v.token, v.enable
+        select v.id, v.uid, v.token, v.enable, v.address, v.lat, v.lng, v.province
         from vote v left join user u on v.uid = u.id
         where u.username = #{username}
     </select>
@@ -138,7 +138,11 @@
         update vote
         <set>
             <if test="enable != null">enable = #{enable},</if>
-            <if test="token != null">token = #{token}</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="token != null">token = #{token},</if>
         </set>
         where uid = #{uid}
     </update>

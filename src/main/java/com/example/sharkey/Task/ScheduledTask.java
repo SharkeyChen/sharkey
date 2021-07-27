@@ -17,6 +17,7 @@ import com.example.sharkey.Watcher.Mapper.VoteMapper;
 import com.example.sharkey.Watcher.Service.MailService;
 import com.example.sharkey.Watcher.Service.NotifyService;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -36,6 +37,7 @@ import java.util.regex.Pattern;
 
 @Component
 @EnableScheduling
+@Slf4j
 public class ScheduledTask {
 
     @Autowired
@@ -75,7 +77,6 @@ public class ScheduledTask {
         }
     }
 
-
     @Scheduled(cron = "0 30 23 * * ?")
     public void SendNotificationEmail(){
         Date now = new Date();
@@ -101,7 +102,6 @@ public class ScheduledTask {
         }
     }
 
-
     @Scheduled(cron ="0 0 8 * * ?")
     public void VoteScheduled(){
         List<VoteConfig> votes = voteMapper.getVerifyVote();
@@ -111,46 +111,54 @@ public class ScheduledTask {
         String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         Pattern p = Pattern.compile(regEx1);
         int sucCount = 0;
+        StringBuffer sucV = new StringBuffer();
         int failCount = 0;
+        StringBuffer failV = new StringBuffer();
         int sendCount = 0;
+        StringBuffer sucS = new StringBuffer();
         int failSend = 0;
+        StringBuffer failS = new StringBuffer();
         for(VoteConfig vc : votes){
             if(!vc.getEnable() || StringUtils.isBlank(vc.getUser().getEmail()) || !p.matcher(vc.getUser().getEmail()).matches()){
                 continue;
             }
-            int code = sendVoteRequest(vc.getToken());
-            MyLogger.logger(code + " " + vc.getToken());
+            int code = sendVoteRequest(vc);
             String result;
             if(code == 200){
                 sucCount ++;
+                sucV.append(vc.getUser().getNickname()).append("; ");
             }
             else{
                 failCount ++;
+                failV.append(vc.getUser().getNickname()).append("; ");
             }
             result = getMessage(code);
             boolean isYes = sendVoteMail(vc.getUser(), result);
             if(isYes){
                 sendCount ++;
+                sucS.append(vc.getUser().getNickname()).append("; ");
             }
             else{
                 failSend ++;
+                failS.append(vc.getUser().getNickname()).append("; ");
             }
         }
         mailService.sendMail("1538720091@qq.com", "今日自动打卡结果展示",
-                String.format("打卡成功：%d 打卡失败：%d\n提醒成功：%d 提醒失败:%d\n", sucCount, failCount, sendCount, failSend));
+                String.format("打卡成功：%d\n%s\n打卡失败：%d\n%s\n提醒成功：%d\n%s\n提醒失败:%d\n%s\n", sucCount, sucV,
+                        failCount, failV, sendCount, sucS, failSend, failS));
     }
 
-    public int sendVoteRequest(String token){
+    public int sendVoteRequest(VoteConfig vote){
         URLPackage urlPackage = new URLPackage("https://reserve.25team.com/wxappv1/yi/addReport");
         urlPackage.setRequestType(RequestType.POST);
-        urlPackage.setEntity("{\"content\":{\"0\":\"在京，在校集中住宿\",\"1\":\"之前已返校或未离校\",\"2\":\"\",\"3\":\"\",\"4\":\"\",\"5\":\"低风险\",\"6\":\"北京市昌平区城北街道中共北京市昌平区委员会北京市昌平区人民政府 经纬度:116.23128,40.22077\",\"7\":\"正常\",\"8\":\"37.3以下\",\"9\":\"绿色\",\"10\":\"均正常\",\"11\":\"无\",\"12\":\"否\",\"13\":\"\",\"14\":\"\"},\"version\":16,\"stat_content\":{},\"location\":{\"province\":\"北京市\",\"country\":\"中国\",\"city\":\"\",\"longitude\":116.23128,\"latitude\":40.22077},\"sick\":\"\",\"accept_templateid\":\"\"}");
         JSONObject headers = new JSONObject();
         headers.put("content-type", "application/json");
         headers.put("Accept-Encoding","gzip, deflate, br\n");
         headers.put("Referer", "https://servicewechat.com/wxd2bebfc67ee4a7eb/63/page-frame.html");
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat");
-        headers.put("token", token);
+        headers.put("token", vote.getToken());
         urlPackage.setHeaders(headers);
+        urlPackage.setEntity(getMyEntity(vote));
         HttpResponse response = HttpClientUtils.httpPostRequest(urlPackage);
         JSONObject res = null;
         try{
@@ -160,13 +168,54 @@ public class ScheduledTask {
                 str = new String(str.getBytes(encode), StandardCharsets.UTF_8);
             }
             res = JsonUtils.JsonToObject(str);
-            JsonUtils.printJObject(res);
+            log.info(res.toJSONString());
             return Integer.parseInt(res.getString("code"));
         }catch (Exception e){
             e.printStackTrace();
             return 600;
         }
+    }
 
+    private String getMyEntity(VoteConfig vote){
+        JSONObject entity = new JSONObject();
+        JSONObject content = new JSONObject();
+        if(isSchool(vote.getLng(), vote.getLat())){
+            content.put("0", "在京，在校集中住宿");
+            content.put("1", "之前已返校或未离校");
+        }
+        else{
+            content.put("0", "否");
+            content.put("1", "");
+        }
+        content.put("2", "");
+        content.put("3", "");
+        content.put("4", "");
+        content.put("5", "低风险");
+        content.put("6", vote.getAddress() + " 经纬度:" + vote.getLng() + "," + vote.getLat());
+        content.put("7", "正常");
+        content.put("8", "37.3以下");
+        content.put("9", "绿色");
+        content.put("10", "均正常");
+        content.put("11", "无");
+        content.put("12", "否");
+        content.put("13", "");
+        content.put("14", "");
+        entity.put("content", content);
+        entity.put("stat_content",new JSONObject());
+        JSONObject loc = new JSONObject();
+        loc.put("country", "中国");
+        loc.put("city", "");
+        loc.put("longitude", vote.getLng());
+        loc.put("latitude", vote.getLat());
+        loc.put("province", vote.getProvince());
+        entity.put("location", loc);
+        entity.put("sick", "");
+        entity.put("accept_templateid", "");
+        return entity.toJSONString();
+    }
+
+    private boolean isSchool(double lng, double lat){
+        return lng >= 116.230 && lng <= 116.270 && lat >= 40.210 && lat <= 40.230;
     }
 
     private String getMessage(int code){

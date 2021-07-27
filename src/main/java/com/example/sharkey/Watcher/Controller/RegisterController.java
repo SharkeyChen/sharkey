@@ -1,6 +1,7 @@
 package com.example.sharkey.Watcher.Controller;
 
 
+import com.example.sharkey.Annotation.Remind;
 import com.example.sharkey.Entity.RespBean;
 import com.example.sharkey.Entity.User;
 import com.example.sharkey.Watcher.Service.UserService;
@@ -14,6 +15,7 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
+    @Remind
     @PostMapping("/register")
     public RespBean RegisterUser(@RequestBody User user){
         return userService.insertUser(user);

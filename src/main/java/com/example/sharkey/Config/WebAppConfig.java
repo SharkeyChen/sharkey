@@ -19,6 +19,9 @@ public class WebAppConfig implements WebMvcConfigurer {
     @Autowired
     private TokenInterceptor tokenInterceptor;
 
+    @Autowired
+    private RemindInterceptor remindInterceptor;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         WebMvcConfigurer.super.addResourceHandlers(registry);
@@ -28,5 +31,6 @@ public class WebAppConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(ipInterceptor);
         registry.addInterceptor(tokenInterceptor);
+        registry.addInterceptor(remindInterceptor);
     }
 }

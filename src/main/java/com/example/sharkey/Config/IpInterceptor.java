@@ -1,6 +1,7 @@
 package com.example.sharkey.Config;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.sharkey.Annotation.Remind;
 import com.example.sharkey.Entity.IpFilter;
 import com.example.sharkey.Entity.RespBean;
 import com.example.sharkey.Utils.IpUtil;
@@ -9,11 +10,13 @@ import com.example.sharkey.Watcher.Mapper.IpFilterMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Component
@@ -25,7 +28,6 @@ public class IpInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         String ip = IpUtil.getIpAddr(request);
-        MyLogger.logger("Ip : " + ip);
         response.setHeader("Content-type", "text/html;charset=UTF-8");
         response.setCharacterEncoding("utf-8");
         if(!StringUtils.isNotBlank(ip)){

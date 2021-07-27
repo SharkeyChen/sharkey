@@ -21,6 +21,15 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String Sender;
 
+    public void remindDeveloper(String subject, String content){
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setFrom(Sender);
+        mail.setTo("1538720091@qq.com");
+        mail.setSubject(subject);
+        mail.setText(content);
+        mailSender.send(mail);
+    }
+
     public void sendMail(String to, String subject, String content){
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setFrom(Sender);
