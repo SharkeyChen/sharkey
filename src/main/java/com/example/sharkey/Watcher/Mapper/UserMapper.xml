@@ -97,7 +97,7 @@
         where to_days(m.date) = to_days(now())
     </select>
 
-    <select id="getDIYPageByUsername" resultType="com.example.sharkey.Entity.DIYPage">
+    <select id="getDIYPageByUsername" resultType="com.example.sharkey.Entity.DIYPage" parameterType="java.lang.String">
         select dp.id, dp.username, dp.path, dp.type
         from diypage dp
         where
@@ -129,7 +129,7 @@
     </update>
 
     <select id="getVoteConfig" resultType="com.example.sharkey.Entity.VoteConfig">
-        select v.id, v.uid, v.token, v.enable, v.address, v.lat, v.lng, v.province
+        select v.id, v.uid, v.token, v.enable, v.address, v.lat, v.lng, v.first, v.second, v.third, v.apartment, v.province
         from vote v left join user u on v.uid = u.id
         where u.username = #{username}
     </select>
@@ -140,8 +140,12 @@
             <if test="enable != null">enable = #{enable},</if>
             <if test="lat != null">lat = #{lat},</if>
             <if test="lng != null">lng = #{lng},</if>
-            <if test="province != null">province = #{province},</if>
             <if test="address != null">address = #{address},</if>
+            <if test="apartment != null">apartment = #{apartment},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="first != null">first = #{first},</if>
+            <if test="second != null">second = #{second},</if>
+            <if test="third != null">third = #{third},</if>
             <if test="token != null">token = #{token},</if>
         </set>
         where uid = #{uid}

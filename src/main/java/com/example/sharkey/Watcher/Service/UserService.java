@@ -146,6 +146,7 @@ public class UserService {
 
     public RespBean getDIYPageByUsername(String username) {
         try {
+            System.out.println(username);
             DIYPage data = userMapper.getDIYPageByUsername(username);
             if (data == null) {
                 return RespBean.error(29400, "个人网页不存在");

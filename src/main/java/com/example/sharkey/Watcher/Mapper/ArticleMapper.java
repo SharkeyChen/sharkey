@@ -2,6 +2,7 @@ package com.example.sharkey.Watcher.Mapper;
 
 import com.example.sharkey.Entity.Article;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface ArticleMapper {
 
     boolean addArticle(Article article);
 
-    List<Article> getArticleListById(String username);
+    List<Article> getArticleListById(@Param("username")String username);
 
-    Article getArticleById(int id, String author);
+    Article getArticleById(int id, @Param("author")String author);
 
     boolean deleteArticle(int articleId);
 

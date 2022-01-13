@@ -21,13 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -38,6 +42,8 @@ import java.util.regex.Pattern;
 @Component
 @EnableScheduling
 @Slf4j
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class ScheduledTask {
 
     @Autowired
@@ -179,44 +185,49 @@ public class ScheduledTask {
     private String getMyEntity(VoteConfig vote){
         JSONObject entity = new JSONObject();
         JSONObject content = new JSONObject();
-        if(isSchool(vote.getLng(), vote.getLat())){
-            content.put("0", "在京，在校集中住宿");
-            content.put("1", "之前已返校或未离校");
+        for(int i = 0;i < 35;i ++){
+            content.put(String.valueOf(i), "");
         }
-        else{
-            content.put("0", "否");
-            content.put("1", "");
-        }
-        content.put("2", "");
-        content.put("3", "");
-        content.put("4", "");
-        content.put("5", "低风险");
+        content.put("0", "在京在校-集中住宿");
+        content.put("1", vote.getApartment());
         content.put("6", vote.getAddress() + " 经纬度:" + vote.getLng() + "," + vote.getLat());
-        content.put("7", "正常");
+        content.put("7", "否");
         content.put("8", "37.3以下");
-        content.put("9", "绿色");
-        content.put("10", "均正常");
-        content.put("11", "无");
-        content.put("12", "否");
-        content.put("13", "");
-        content.put("14", "");
+        content.put("9", "正常");
+        content.put("10", "否");
+        content.put("13", "否");
+        content.put("15", "否");
+        content.put("16", "均正常");
+        content.put("17", "否");
+        content.put("18", "否");
+        content.put("21", "否");
+        content.put("22", "否");
+        content.put("23", "否");
+        content.put("24", "是");
+        content.put("25", vote.getFirst());
+        content.put("27", "是");
+        content.put("28", vote.getSecond());
+        content.put("30", "是");
+        content.put("31", vote.getThird());
         entity.put("content", content);
+        entity.put("version", 20);
         entity.put("stat_content",new JSONObject());
         JSONObject loc = new JSONObject();
         loc.put("country", "中国");
+        loc.put("province", vote.getProvince());
         loc.put("city", "");
         loc.put("longitude", vote.getLng());
         loc.put("latitude", vote.getLat());
-        loc.put("province", vote.getProvince());
         entity.put("location", loc);
         entity.put("sick", "");
         entity.put("accept_templateid", "");
+        log.info(entity.toJSONString());
         return entity.toJSONString();
     }
 
-    private boolean isSchool(double lng, double lat){
-        return lng >= 116.230 && lng <= 116.270 && lat >= 40.210 && lat <= 40.230;
-    }
+//    private boolean isSchool(double lng, double lat){
+//        return lng >= 116.230 && lng <= 116.270 && lat >= 40.210 && lat <= 40.230;
+//    }
 
     private String getMessage(int code){
         if(code == 200){

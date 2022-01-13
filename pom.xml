@@ -7,6 +7,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
+
     </parent>
     <groupId>com.example</groupId>
     <artifactId>sharkey</artifactId>
@@ -89,6 +90,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -139,10 +152,23 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.2.4.RELEASE</version>
+            </plugin>
+
+            <!--跳过测试-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
             </plugin>
 
 <!--            docker-maven-plugin插件-->
@@ -165,7 +191,7 @@
                         <imageTag>latest</imageTag>
                     </imageTags>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
-                    <dockerHost>http://39.107.26.8:2375</dockerHost>
+                    <dockerHost>http://101.42.88.50:2374</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

@@ -1,5 +1,6 @@
 package com.example.sharkey.Watcher.Service;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class MailService {
 
     @Value("${spring.mail.username}")
     private String Sender;
+
 
     public void remindDeveloper(String subject, String content){
         SimpleMailMessage mail = new SimpleMailMessage();

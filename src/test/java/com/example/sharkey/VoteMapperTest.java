@@ -12,6 +12,7 @@ import com.example.sharkey.Watcher.Mapper.VoteMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class VoteMapperTest {
@@ -76,7 +78,6 @@ public class VoteMapperTest {
         loc.put("city", "");
         loc.put("longitude", vote.getLng());
         loc.put("latitude", vote.getLat());
-        loc.put("province", vote.getProvince());
         entity.put("location", loc);
         entity.put("sick", "");
         entity.put("accept_templateid", "");
