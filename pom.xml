@@ -191,7 +191,7 @@
                         <imageTag>latest</imageTag>
                     </imageTags>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
-                    <dockerHost>http://101.42.88.50:2374</dockerHost>
+                    <dockerHost>http://101.42.88.50:2365</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
