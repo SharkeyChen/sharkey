@@ -39,10 +39,17 @@
 
     <select id="getUsersByListParams" resultType="com.example.sharkey.Entity.User">
         select * from user
-        where user.username in
-        <foreach collection="list" item="username" index="index" open="(" close=")" separator=",">
-            #{username}
-        </foreach>
+        <choose>
+            <when test="list == null || list.size() == 0">
+                limit 0
+            </when>
+            <otherwise>
+                where user.username in
+                <foreach collection="list" item="username" index="index" open="(" close=")" separator=",">
+                    #{username}
+                </foreach>
+            </otherwise>
+        </choose>
     </select>
 
     <update id="UpdateUserInfo" parameterType="com.example.sharkey.Entity.User">

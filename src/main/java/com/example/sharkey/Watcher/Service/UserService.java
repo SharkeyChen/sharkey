@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -72,9 +73,6 @@ public class UserService {
     }
 
     public RespPageBean getUsersByListParams(List<String> list) {
-//        if(list == null || list.size() == 0){
-//
-//        }
         List<User> data = userMapper.getUsersByListParams(list);
         RespPageBean bean = new RespPageBean();
         bean.setData(data);
